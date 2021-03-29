@@ -8,6 +8,24 @@ const unsigned int bools_length_y = 50;
 bool bools[bools_length_x][bools_length_y]{ false };
 
 int main() {
+	/*initialize bools*/
+	bools[1][0] = true;
+	bools[1][1] = true;
+	bools[1][2] = true;
+
+	bools[5][5] = true;
+	bools[5][6] = true;
+	bools[5][7] = true;
+	bools[6][7] = true;
+	bools[6][7] = true;
+	bools[7][6] = true;
+
+	/*draw and update loop*/
+	for (int i = 0; i < 100; i++) {
+		draw();
+		change_bools();
+	}
+
 	return 0;
 }
 
@@ -41,7 +59,7 @@ void change_bools() {
 bool get_next_bool(unsigned int x, unsigned int y) {
 	/*check position*/
 	if (x > bools_length_x || y > bools_length_y) {
-		std::cout << "you fucked up you little piece of...";
+		std::cout << "you fucked up really hard you little piece of...";
 		return false;
 	}
 
@@ -64,11 +82,28 @@ bool get_next_bool(unsigned int x, unsigned int y) {
 	bool w = false;
 	if (x != 0) w = get_bool(x - 1, y);
 
-	/*return right bool*/ //TODO
+	/*get number of surrounding positive booleans*/
+	unsigned char counter = 0;
+	if (nw) counter++;
+	if (n) counter++;
+	if (no) counter++;
+	if (o) counter++;
+	if (so) counter++;
+	if (s) counter++;
+	if (sw) counter++;
+	if (w) counter++;
+
+	/*return right bool (standard game of life rules)*/
+	if (mid) {
+		if (counter > 1 && counter < 4) return true;
+	}
+	else {
+		if (counter == 3) return true;
+	}
 
 	return false;
 }
 
-bool get_bool(int x, int y) {
+bool get_bool(unsigned int x, unsigned int y) {
 	return bools[x][y];
 }
